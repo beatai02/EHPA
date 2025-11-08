@@ -1,0 +1,298 @@
+# OSINT Sources Configuration
+# Security news feeds and threat intelligence sources
+
+# RSS/Atom Feeds
+rss_feeds:
+  security_news:
+    - name: "ThreatPost"
+      url: "https://threatpost.com/feed/"
+      category: "news"
+      update_interval: 3600  # 1 hour
+      priority: "high"
+
+    - name: "TheHackerNews"
+      url: "https://feeds.feedburner.com/TheHackersNews"
+      category: "news"
+      update_interval: 3600
+      priority: "high"
+
+    - name: "BleepingComputer"
+      url: "https://www.bleepingcomputer.com/feed/"
+      category: "news"
+      update_interval: 3600
+      priority: "high"
+
+    - name: "CybersecurityNews"
+      url: "https://cybersecuritynews.com/feed/"
+      category: "news"
+      update_interval: 3600
+      priority: "medium"
+
+    - name: "DarkReading"
+      url: "https://www.darkreading.com/rss.xml"
+      category: "news"
+      update_interval: 3600
+      priority: "medium"
+
+    - name: "SecurityWeek"
+      url: "https://www.securityweek.com/feed/"
+      category: "news"
+      update_interval: 3600
+      priority: "medium"
+
+    - name: "Krebs on Security"
+      url: "https://krebsonsecurity.com/feed/"
+      category: "news"
+      update_interval: 7200  # 2 hours
+      priority: "medium"
+
+  vulnerability_feeds:
+    - name: "NVD Recent CVEs"
+      url: "https://nvd.nist.gov/feeds/xml/cve/misc/nvd-rss.xml"
+      category: "vulnerabilities"
+      update_interval: 7200
+      priority: "critical"
+
+    - name: "Exploit-DB"
+      url: "https://www.exploit-db.com/rss.xml"
+      category: "exploits"
+      update_interval: 7200
+      priority: "high"
+
+    - name: "CISA Known Exploited Vulnerabilities"
+      url: "https://www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json"
+      category: "vulnerabilities"
+      update_interval: 14400  # 4 hours
+      priority: "critical"
+
+    - name: "US-CERT CISA Alerts"
+      url: "https://www.cisa.gov/cybersecurity-advisories/all.xml"
+      category: "alerts"
+      update_interval: 7200
+      priority: "high"
+
+  threat_intelligence:
+    - name: "AlienVault OTX"
+      url: "https://otx.alienvault.com/api/v1/pulses/subscribed"
+      category: "threat_intel"
+      update_interval: 14400
+      priority: "medium"
+      requires_api_key: true
+
+    - name: "Shodan Blog"
+      url: "https://blog.shodan.io/rss/"
+      category: "research"
+      update_interval: 86400  # 24 hours
+      priority: "low"
+
+# Twitter Feeds (Security Researchers & Organizations)
+twitter_sources:
+  researchers:
+    - handle: "@0xInfection"
+      name: "Pinaki"
+      topics: ["appsec", "bugbounty"]
+
+    - handle: "@trbughunters"
+      name: "Bug Hunters"
+      topics: ["bugbounty", "vulnerabilities"]
+
+    - handle: "@Hacker0x01"
+      name: "HackerOne"
+      topics: ["bugbounty", "security"]
+
+  organizations:
+    - handle: "@USCERT_gov"
+      name: "US-CERT"
+      topics: ["alerts", "vulnerabilities"]
+
+    - handle: "@CISAgov"
+      name: "CISA"
+      topics: ["alerts", "advisories"]
+
+    - handle: "@NCSC"
+      name: "UK NCSC"
+      topics: ["guidance", "threats"]
+
+# Reddit Sources
+reddit_sources:
+  - subreddit: "netsec"
+    category: "research"
+    update_interval: 7200
+
+  - subreddit: "AskNetsec"
+    category: "discussion"
+    update_interval: 14400
+
+  - subreddit: "blueteamsec"
+    category: "defense"
+    update_interval: 14400
+
+  - subreddit: "bugbounty"
+    category: "bugbounty"
+    update_interval: 7200
+
+# GitHub Security Advisories
+github_sources:
+  - type: "security_advisories"
+    url: "https://github.com/advisories"
+    category: "vulnerabilities"
+    update_interval: 14400
+
+  - type: "trending_security_repos"
+    url: "https://github.com/trending/security"
+    category: "tools"
+    update_interval: 86400
+
+# Mailing Lists
+mailing_lists:
+  - name: "Full Disclosure"
+    url: "https://seclists.org/fulldisclosure/"
+    category: "vulnerabilities"
+    update_interval: 7200
+
+  - name: "Bugtraq"
+    url: "https://seclists.org/bugtraq/"
+    category: "vulnerabilities"
+    update_interval: 7200
+
+# Aggregator Settings
+aggregator:
+  # Storage settings
+  storage_path: "data/osint_feeds"
+  max_items_per_source: 100
+  retention_days: 30
+
+  # Update settings
+  check_interval: 60  # Check every minute which sources need updating
+  concurrent_fetches: 5
+  timeout: 30
+
+  # Filtering
+  keywords:
+    high_priority:
+      - "zero-day"
+      - "0day"
+      - "rce"
+      - "remote code execution"
+      - "critical"
+      - "actively exploited"
+      - "ransomware"
+
+    medium_priority:
+      - "vulnerability"
+      - "cve"
+      - "exploit"
+      - "breach"
+      - "disclosure"
+
+  # Deduplication
+  enable_deduplication: true
+  dedup_similarity_threshold: 0.85
+
+  # Notifications (for critical findings)
+  notifications:
+    enabled: true
+    channels:
+      - "log"  # Always log
+      - "webhook"  # Optional webhook
+
+    triggers:
+      - keyword: "zero-day"
+        severity: "critical"
+
+      - keyword: "actively exploited"
+        severity: "critical"
+
+      - cvss_score: 9.0
+        severity: "critical"
+
+# OSINT Tools Configuration
+osint_tools:
+  theharvester:
+    enabled: true
+    data_sources:
+      - "google"
+      - "bing"
+      - "duckduckgo"
+      - "linkedin"
+      - "twitter"
+    limit: 500
+    timeout: 300
+
+  shodan:
+    enabled: true
+    requires_api_key: true
+    api_key_env: "SHODAN_API_KEY"
+    rate_limit: 100  # queries per day for free tier
+
+  amass:
+    enabled: true
+    passive_mode: true
+    data_sources:
+      - "certspotter"
+      - "crtsh"
+      - "hackertarget"
+      - "threatcrowd"
+    timeout: 600
+
+  subfinder:
+    enabled: true
+    all_sources: true
+    timeout: 300
+
+  recon_ng:
+    enabled: false  # Optional
+    requires_setup: true
+
+  maltego:
+    enabled: false  # Requires license
+    requires_license: true
+
+# Target Intelligence Gathering
+target_intelligence:
+  # What to collect for each target
+  collect:
+    - "subdomains"
+    - "emails"
+    - "social_media"
+    - "employees"
+    - "technologies"
+    - "ip_addresses"
+    - "asn_info"
+    - "dns_records"
+    - "ssl_certificates"
+    - "historical_data"
+
+  # Enrichment sources
+  enrichment:
+    - source: "whois"
+      info: ["registrar", "creation_date", "name_servers"]
+
+    - source: "dns"
+      info: ["a_records", "mx_records", "txt_records", "ns_records"]
+
+    - source: "ssl"
+      info: ["issuer", "validity", "san", "organization"]
+
+    - source: "wayback_machine"
+      info: ["historical_snapshots", "old_endpoints"]
+
+# Privacy & Ethics
+ethics:
+  # Only collect publicly available information
+  public_sources_only: true
+
+  # Respect robots.txt and rate limits
+  respect_robots_txt: true
+  rate_limiting:
+    enabled: true
+    max_requests_per_second: 2
+    max_requests_per_minute: 60
+
+  # User agent identification
+  user_agent: "EHPA-OSINT/1.0 (Educational Penetration Testing Tool)"
+
+  # Legal compliance
+  disclaimer: |
+    OSINT collection is for authorized penetration testing only.
+    Ensure you have permission before gathering intelligence on any target.

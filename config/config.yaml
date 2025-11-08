@@ -1,0 +1,167 @@
+# EHPA Task 1 - Backend Orchestration Configuration
+
+# Penetration Testing Phases (PTES Methodology - 6 Phases)
+pentest_phases:
+  reconnaissance:
+    order: 1
+    description: "Initial information gathering and target discovery"
+    tools:
+      - nmap
+      - amass
+      - subfinder
+      - theharvester
+      - shodan
+      - whois
+
+  enumeration:
+    order: 2
+    description: "Service enumeration and detailed information extraction"
+    tools:
+      - enum4linux
+      - dnsenum
+      - gobuster
+      - dirb
+      - ffuf
+
+  vulnerability_scanning:
+    order: 3
+    description: "Vulnerability scanning and weakness identification"
+    tools:
+      - nikto
+      - nuclei
+      - wpscan
+      - nmap
+      - whatweb
+
+  exploitation:
+    order: 4
+    description: "Vulnerability validation and exploitation attempts"
+    requires_approval: true
+    tools:
+      - sqlmap
+      - metasploit
+      - searchsploit
+
+  post_exploitation:
+    order: 5
+    description: "Privilege escalation and lateral movement"
+    requires_approval: true
+    tools:
+      - linpeas
+      - winpeas
+      - metasploit
+
+  reporting:
+    order: 6
+    description: "Documentation and comprehensive report generation"
+    tools:
+      - report_generator
+
+# LLM Module Configurations
+llm_modules:
+  reasoning:
+    role: "Senior Penetration Tester"
+    system_prompt: |
+      You are a senior penetration tester with 15+ years of experience.
+      You follow the PTES (Penetration Testing Execution Standard) methodology.
+      Analyze the current penetration test state and plan strategic next steps.
+      Consider: target scope, discovered assets, vulnerabilities found, and testing phase.
+      Provide clear, prioritized recommendations with risk assessments.
+    temperature: 0.7
+    max_tokens: 2048
+
+  generation:
+    role: "Tactical Security Engineer"
+    system_prompt: |
+      You are an expert security engineer specializing in penetration testing tools.
+      Generate precise, safe, and effective commands for security testing tools.
+      Always validate target scope and provide clear explanations.
+      Include expected outputs and potential issues.
+    temperature: 0.5
+    max_tokens: 1024
+
+  parsing:
+    role: "Security Data Analyst"
+    system_prompt: |
+      You are a security data analyst expert in parsing tool outputs.
+      Extract structured information from raw security tool results.
+      Identify vulnerabilities, misconfigurations, and security findings.
+      Classify severity levels: Critical, High, Medium, Low, Informational.
+    temperature: 0.3
+    max_tokens: 2048
+
+# MCP Tool Configurations
+mcp_tools:
+  nmap:
+    description: "Network reconnaissance and port scanning"
+    binary_path: "/usr/bin/nmap"
+    default_flags: ["-sV", "-sC", "-T4"]
+    max_timeout: 300
+    output_format: "xml"
+
+  nikto:
+    description: "Web vulnerability scanner"
+    binary_path: "/usr/bin/nikto"
+    default_flags: ["-Tuning", "x", "-Format", "json"]
+    max_timeout: 600
+    output_format: "json"
+
+  sqlmap:
+    description: "SQL injection testing tool"
+    binary_path: "/usr/bin/sqlmap"
+    default_flags: ["--batch", "--random-agent"]
+    max_timeout: 900
+    output_format: "json"
+
+  gobuster:
+    description: "Directory and file enumeration"
+    binary_path: "/usr/bin/gobuster"
+    default_flags: ["-t", "50", "-q"]
+    max_timeout: 300
+    output_format: "text"
+
+  metasploit:
+    description: "Exploitation framework"
+    binary_path: "/usr/bin/msfconsole"
+    default_flags: ["-q", "-x"]
+    max_timeout: 1800
+    output_format: "text"
+
+# Vulnerability Severity Scoring
+severity_levels:
+  critical:
+    score: 9.0-10.0
+    color: "red"
+    priority: 1
+  high:
+    score: 7.0-8.9
+    color: "orange"
+    priority: 2
+  medium:
+    score: 4.0-6.9
+    color: "yellow"
+    priority: 3
+  low:
+    score: 2.0-3.9
+    color: "blue"
+    priority: 4
+  informational:
+    score: 0.0-1.9
+    color: "green"
+    priority: 5
+
+# Report Templates
+report_settings:
+  format: "html"
+  include_executive_summary: true
+  include_technical_details: true
+  include_remediation: true
+  include_references: true
+
+# Safety & Compliance
+safety:
+  require_authorization: true
+  log_all_commands: true
+  validate_target_scope: true
+  block_destructive_commands: true
+  max_concurrent_tasks: 5

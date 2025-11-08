@@ -1,0 +1,29 @@
+conversation_patterns:
+  greetings:
+  - hello
+  - hi
+  - hey
+  help:
+  - help
+  - what can you do
+  status:
+  - status
+  - progress
+  - how is it going
+response_templates:
+  scan_complete: Scan completed. Found {count} vulnerabilities.
+  scan_started: 'Starting scan on {target}. Phase: {phase}, Tool: {tool}'
+  vulnerability_found: 'Vulnerability discovered: {title}'
+system_prompts:
+  base: 'You are an AI security assistant specializing in ethical hacking and penetration
+    testing.
+
+    You help users understand security concepts, interpret scan results, and learn
+    about vulnerabilities.
+
+    Be clear, educational, and always emphasize ethical use.'
+  intent_classifier: 'You are an intent classifier for a security chatbot.
+
+    Classify user messages into: command, question, explanation, guidance, or general.
+
+    Respond with JSON format.'

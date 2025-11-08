@@ -1,0 +1,23 @@
+concepts:
+  exploitation: Attempting to exploit discovered vulnerabilities
+  reconnaissance: Information gathering phase of penetration testing
+tools:
+  nikto:
+    description: Web server scanner
+    use_case: Web vulnerability scanning
+  nmap:
+    description: Network exploration and security auditing tool
+    use_case: Port scanning, service detection, OS detection
+vulnerabilities:
+  sql_injection:
+    description: SQL injection is a code injection technique that exploits security
+      vulnerabilities in database layer.
+    mitigation: Use parameterized queries, input validation, and principle of least
+      privilege.
+    severity: high
+    title: SQL Injection
+  xss:
+    description: XSS allows attackers to inject malicious scripts into web pages.
+    mitigation: Sanitize user input, encode output, use Content Security Policy.
+    severity: medium
+    title: Cross-Site Scripting (XSS)

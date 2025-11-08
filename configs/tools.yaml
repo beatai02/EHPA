@@ -1,0 +1,406 @@
+# Security Tools Configuration
+# Tool-specific settings and parameters
+
+# Network Scanning Tools
+network_scanning:
+  nmap:
+    binary_path: "/usr/bin/nmap"
+    default_timeout: 300
+    default_options:
+      scan_type: "syn"
+      timing: "T4"
+      service_detection: true
+      os_detection: false  # Can be slow
+      version_detection: true
+
+    common_port_ranges:
+      quick: "1-1000"
+      standard: "1-10000"
+      full: "1-65535"
+      top_100: "--top-ports 100"
+      top_1000: "--top-ports 1000"
+
+    scripts:
+      safe: ["default", "safe"]
+      vuln: ["vuln", "exploit"]
+      all: ["all"]
+
+  masscan:
+    binary_path: "/usr/bin/masscan"
+    default_timeout: 600
+    default_rate: 10000  # packets per second
+    max_rate: 100000
+    default_options:
+      ports: "1-65535"
+      wait: 10
+
+  rustscan:
+    binary_path: "/usr/bin/rustscan"
+    default_timeout: 300
+    default_batch_size: 4500
+    ulimit: 5000
+
+# Web Scanning Tools
+web_scanning:
+  nikto:
+    binary_path: "/usr/bin/nikto"
+    default_timeout: 600
+    default_options:
+      tuning: "1,2,3,4,5,6,7,8,9,a,b,c"  # All checks
+      ssl: true
+      no_ssl: false
+      format: "json"
+
+  nuclei:
+    binary_path: "/usr/bin/nuclei"
+    default_timeout: 900
+    templates_path: "/root/nuclei-templates"
+    default_options:
+      severity: ["critical", "high", "medium"]
+      exclude_severity: ["info"]
+      rate_limit: 150
+      bulk_size: 25
+      concurrency: 25
+
+    template_categories:
+      - "cves"
+      - "vulnerabilities"
+      - "exposed-panels"
+      - "exposures"
+      - "misconfigurations"
+      - "technologies"
+
+  wpscan:
+    binary_path: "/usr/bin/wpscan"
+    default_timeout: 600
+    api_token_env: "WPSCAN_API_TOKEN"
+    default_options:
+      enumerate: "vp,vt,u"  # Vulnerable plugins, themes, users
+      random_user_agent: true
+      detection_mode: "aggressive"
+      api_token: null  # Set via environment
+
+  whatweb:
+    binary_path: "/usr/bin/whatweb"
+    default_timeout: 120
+    default_options:
+      aggression: 1  # 1=passive, 3=aggressive
+      log_json: true
+
+# Directory Enumeration Tools
+directory_enumeration:
+  gobuster:
+    binary_path: "/usr/bin/gobuster"
+    default_timeout: 600
+    wordlists:
+      small: "/usr/share/wordlists/dirb/common.txt"
+      medium: "/usr/share/wordlists/dirb/big.txt"
+      large: "/usr/share/seclists/Discovery/Web-Content/directory-list-2.3-medium.txt"
+
+    default_options:
+      threads: 50
+      extensions: "php,html,txt,js,json,xml,asp,aspx,jsp"
+      exclude_status_codes: "404,403"
+      follow_redirect: false
+
+  dirb:
+    binary_path: "/usr/bin/dirb"
+    default_timeout: 600
+    wordlists:
+      common: "/usr/share/wordlists/dirb/common.txt"
+      big: "/usr/share/wordlists/dirb/big.txt"
+
+    default_options:
+      silent: true
+      extensions: ".php,.html,.txt,.js"
+
+  ffuf:
+    binary_path: "/usr/bin/ffuf"
+    default_timeout: 600
+    default_options:
+      threads: 40
+      rate_limit: 0  # unlimited
+      match_status: "200,204,301,302,307,401,403"
+      filter_status: "404"
+      timeout: 10
+
+  feroxbuster:
+    binary_path: "/usr/bin/feroxbuster"
+    default_timeout: 900
+    default_options:
+      threads: 50
+      depth: 4
+      wordlist: "/usr/share/seclists/Discovery/Web-Content/raft-medium-directories.txt"
+      extensions: "php,html,txt,js"
+
+# Service Enumeration Tools
+service_enumeration:
+  enum4linux:
+    binary_path: "/usr/bin/enum4linux"
+    default_timeout: 300
+    default_options:
+      all: true
+
+  dnsenum:
+    binary_path: "/usr/bin/dnsenum"
+    default_timeout: 300
+    default_options:
+      threads: 5
+      enum: true
+
+  smbclient:
+    binary_path: "/usr/bin/smbclient"
+    default_timeout: 120
+
+  ldapsearch:
+    binary_path: "/usr/bin/ldapsearch"
+    default_timeout: 120
+
+# OSINT Tools
+osint:
+  amass:
+    binary_path: "/usr/bin/amass"
+    default_timeout: 600
+    default_options:
+      passive: true
+      timeout: 30
+
+    data_sources:
+      - "certspotter"
+      - "crtsh"
+      - "hackertarget"
+
+  subfinder:
+    binary_path: "/usr/bin/subfinder"
+    default_timeout: 300
+    default_options:
+      silent: true
+      all: true
+
+  theharvester:
+    binary_path: "/usr/bin/theHarvester"
+    default_timeout: 300
+    default_options:
+      limit: 500
+      sources: "google,bing,duckduckgo"
+
+  shodan:
+    requires_api_key: true
+    api_key_env: "SHODAN_API_KEY"
+    rate_limit: 100  # Free tier
+
+# Exploitation Tools
+exploitation:
+  sqlmap:
+    binary_path: "/usr/bin/sqlmap"
+    default_timeout: 600
+    requires_approval: true
+
+    default_options:
+      level: 1  # Conservative
+      risk: 1   # Safe only
+      batch: true  # Non-interactive
+      threads: 1
+      tamper: null
+
+    risk_levels:
+      safe: 1
+      moderate: 2
+      aggressive: 3
+
+  metasploit:
+    binary_path: "/usr/bin/msfconsole"
+    default_timeout: 900
+    requires_approval: true
+    requires_double_confirm: true  # Extra safety
+
+    # Use RPC for programmatic access
+    msfrpcd:
+      enabled: false
+      host: "127.0.0.1"
+      port: 55553
+      ssl: true
+
+  searchsploit:
+    binary_path: "/usr/bin/searchsploit"
+    default_timeout: 60
+    default_options:
+      json: true
+      exact: false
+
+# Post-Exploitation Tools
+post_exploitation:
+  linpeas:
+    script_url: "https://github.com/carlospolop/PEASS-ng/releases/latest/download/linpeas.sh"
+    requires_approval: true
+    default_timeout: 300
+
+  winpeas:
+    binary_url: "https://github.com/carlospolop/PEASS-ng/releases/latest/download/winPEASx64.exe"
+    requires_approval: true
+    default_timeout: 300
+
+  linux_exploit_suggester:
+    script_path: "/opt/linux-exploit-suggester/linux-exploit-suggester.sh"
+    default_timeout: 120
+
+  windows_exploit_suggester:
+    script_path: "/opt/windows-exploit-suggester/windows-exploit-suggester.py"
+    default_timeout: 120
+
+# Password Cracking Tools
+password_cracking:
+  hashcat:
+    binary_path: "/usr/bin/hashcat"
+    default_timeout: 3600
+    requires_approval: true
+
+    default_options:
+      attack_mode: 0  # Dictionary
+      workload_profile: 2  # Default
+
+  john:
+    binary_path: "/usr/bin/john"
+    default_timeout: 3600
+    requires_approval: true
+
+  hydra:
+    binary_path: "/usr/bin/hydra"
+    default_timeout: 600
+    requires_approval: true
+
+    default_options:
+      threads: 4
+      verbose: true
+
+# Wireless Tools
+wireless:
+  aircrack_ng:
+    binary_path: "/usr/bin/aircrack-ng"
+    requires_approval: true
+
+  wifite:
+    binary_path: "/usr/bin/wifite"
+    requires_approval: true
+
+# Hexstrike MCP Integration
+hexstrike:
+  enabled: true
+  mcp_url: "http://localhost:8888"
+  api_key_env: "HEXSTRIKE_API_KEY"
+  timeout: 300
+  retry_attempts: 3
+
+  # Fallback behavior
+  fallback_to_direct: true  # Use direct execution if Hexstrike unavailable
+
+  # Tools available via Hexstrike (150+)
+  available_categories:
+    - "network_scanning"
+    - "web_scanning"
+    - "directory_enumeration"
+    - "service_enumeration"
+    - "osint"
+    - "exploitation"
+    - "password_cracking"
+    - "wireless"
+    - "forensics"
+    - "web_exploitation"
+    - "privilege_escalation"
+    - "post_exploitation"
+
+# Tool Priority & Selection
+tool_selection:
+  # Preferred tools for each phase
+  reconnaissance:
+    primary: ["nmap", "amass", "subfinder"]
+    secondary: ["theharvester", "shodan", "whois"]
+
+  enumeration:
+    primary: ["gobuster", "enum4linux", "dnsenum"]
+    secondary: ["ffuf", "feroxbuster", "dirb"]
+
+  vulnerability_scanning:
+    primary: ["nikto", "nuclei", "nmap"]
+    secondary: ["wpscan", "whatweb"]
+
+  exploitation:
+    primary: ["sqlmap", "searchsploit"]
+    secondary: ["metasploit"]
+
+# Resource Limits
+resource_limits:
+  max_concurrent_tools: 3
+  max_memory_mb: 2048
+  max_cpu_percent: 80
+  nice_level: 10  # Lower priority for scans
+
+# Output Settings
+output:
+  save_raw_output: true
+  output_directory: "data/tool_outputs"
+  compression: true
+  retention_days: 30
+
+  formats:
+    - "json"
+    - "xml"
+    - "txt"
+
+# Error Handling
+error_handling:
+  retry_on_failure: true
+  max_retries: 3
+  retry_delay: 5  # seconds
+
+  continue_on_error: true  # Don't stop entire scan if one tool fails
+
+# Wordlists
+wordlists:
+  directories:
+    small: "/usr/share/wordlists/dirb/common.txt"
+    medium: "/usr/share/seclists/Discovery/Web-Content/directory-list-2.3-medium.txt"
+    large: "/usr/share/seclists/Discovery/Web-Content/directory-list-2.3-big.txt"
+
+  passwords:
+    small: "/usr/share/wordlists/rockyou-10.txt"
+    medium: "/usr/share/wordlists/rockyou.txt"
+    large: "/usr/share/seclists/Passwords/Leaked-Databases/rockyou.txt"
+
+  usernames:
+    common: "/usr/share/seclists/Usernames/top-usernames-shortlist.txt"
+    large: "/usr/share/seclists/Usernames/Names/names.txt"
+
+  subdomains:
+    small: "/usr/share/seclists/Discovery/DNS/subdomains-top1million-5000.txt"
+    medium: "/usr/share/seclists/Discovery/DNS/subdomains-top1million-20000.txt"
+    large: "/usr/share/seclists/Discovery/DNS/subdomains-top1million-110000.txt"
+
+# Safety Settings
+safety:
+  # Require explicit approval for dangerous operations
+  require_approval:
+    - "exploitation"
+    - "post_exploitation"
+    - "password_cracking"
+    - "wireless"
+    - "dos_testing"
+
+  # Blocked operations (never allow)
+  blocked_operations:
+    - "dos_attacks"
+    - "destructive_actions"
+    - "data_deletion"
+    - "unauthorized_access"
+
+  # Target validation
+  target_validation:
+    check_authorization: true
+    allowed_targets_file: ".env"
+    require_explicit_approval: true
+
+  # Rate limiting to avoid DoS
+  rate_limiting:
+    enabled: true
+    max_requests_per_second: 10
+    max_concurrent_connections: 50
