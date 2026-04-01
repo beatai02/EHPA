@@ -3,19 +3,6 @@
 
 ---
 
-## 📚 Table of Contents
-1. [What is This Project?](#what-is-this-project)
-2. [How Does It Work?](#how-does-it-work)
-3. [What Can It Do?](#what-can-it-do)
-4. [Project Structure Explained](#project-structure-explained)
-5. [Installation & Setup](#installation--setup)
-6. [How to Use It](#how-to-use-it)
-7. [Understanding the Components](#understanding-the-components)
-8. [Example Walkthrough](#example-walkthrough)
-9. [Troubleshooting](#troubleshooting)
-
----
-
 ## What is This Project?
 
 ### Simple Explanation
@@ -36,16 +23,6 @@ Imagine you want to check if a website or network is secure. Normally, you would
 - **P**ersonal - Your own AI assistant
 - **A**ssistant - Helps you automatically
 
-### Real-World Analogy
-
-Think of EHPA like having a **security expert robot** that:
-- 🤖 Thinks like a senior security professional (using AI)
-- 🔧 Uses hacking tools automatically (nmap, nikto, etc.)
-- 📊 Explains findings in simple language
-- 💬 Chats with you to answer questions
-- 📝 Writes professional security reports
-
----
 
 ## How Does It Work?
 
@@ -225,87 +202,6 @@ Creates reports like real security consultants:
 └─────────────────────────────────┘
 ```
 
----
-
-## Project Structure Explained
-
-### What's in Each Folder?
-
-```
-ehpa-task1/
-├── 📄 main.py                    # The file you run to start everything
-├── 📄 requirements.txt           # List of software this needs
-├── 📄 .env                       # Your secret API keys (don't share!)
-│
-├── 📁 src/                       # All the program code
-│   │
-│   ├── 📁 agents/                # 5 AI agents for each phase
-│   │   ├── recon_agent.py       # Phase 1: Finds targets
-│   │   ├── enum_agent.py        # Phase 2: Gets details
-│   │   ├── vuln_agent.py        # Phase 3: Finds vulnerabilities
-│   │   ├── exploit_agent.py     # Phase 4: Tests vulnerabilities
-│   │   └── report_agent.py      # Phase 6: Creates reports
-│   │
-│   ├── 📁 chatbot/               # The AI chat system
-│   │   ├── conversation_handler.py  # Manages chat conversations
-│   │   ├── command_parser.py        # Understands your commands
-│   │   ├── explainer.py             # Explains security concepts
-│   │   └── context_manager.py       # Remembers conversation history
-│   │
-│   ├── 📁 modules/               # The 3 AI brains
-│   │   ├── reasoning.py         # The Planner (what to do)
-│   │   ├── generation.py        # The Executor (how to do it)
-│   │   └── parsing.py           # The Analyzer (what was found)
-│   │
-│   ├── 📁 mcp/                   # Tool wrappers (makes tools easy to use)
-│   │   ├── nmap_server.py       # For network scanning
-│   │   ├── nikto_server.py      # For web vulnerability scanning
-│   │   ├── sqlmap_server.py     # For SQL injection testing
-│   │   ├── gobuster_server.py   # For finding hidden directories
-│   │   ├── osint_tools.py       # For information gathering
-│   │   ├── exploit_tools.py     # For testing vulnerabilities
-│   │   └── post_exploit_tools.py # For privilege escalation
-│   │
-│   ├── 📁 api/                   # Web server (handles requests)
-│   │   ├── server.py            # Main web server
-│   │   ├── websocket.py         # Real-time chat server
-│   │   ├── chat_routes.py       # Chat API endpoints
-│   │   └── models.py            # Data structures
-│   │
-│   ├── 📁 orchestrator/          # Coordination center
-│   │   ├── chatbot_manager.py   # Manages chatbot
-│   │   └── osint_aggregator.py  # Collects security news
-│   │
-│   └── 📁 utils/                 # Helper tools
-│       ├── logger.py            # Records what happens (logs)
-│       └── reporter.py          # Creates reports
-│
-├── 📁 web/                       # Website/Dashboard
-│   ├── 📁 templates/
-│   │   └── dashboard.html       # The main webpage
-│   └── 📁 static/
-│       ├── 📁 css/
-│       │   └── dashboard.css    # Makes it look pretty
-│       └── 📁 js/
-│           ├── dashboard.js     # Makes dashboard work
-│           └── chat.js          # Makes chat work
-│
-├── 📁 configs/                   # Settings and configurations
-│   ├── config.yaml              # Main settings
-│   ├── tools.yaml               # Tool settings
-│   ├── chatbot_prompts.yaml     # Chatbot response templates
-│   ├── educational_content.yaml # Security lessons
-│   └── osint_sources.yaml       # Security news sources
-│
-├── 📁 data/                      # Stored information
-│   ├── 📁 sessions/             # Saved scan sessions
-│   ├── 📁 findings/             # Discovered vulnerabilities
-│   ├── 📁 reports/              # Generated reports
-│   └── 📁 chat_history/         # Chatbot conversations
-│
-└── 📁 tests/                     # Tests to make sure everything works
-```
-
 ### How Components Work Together
 
 ```
@@ -360,103 +256,7 @@ ehpa-task1/
    sudo apt install nmap nikto sqlmap gobuster -y
    ```
 
-#### Installation Steps
-
-**Step 1: Get the Project**
-```bash
-# Go to your projects folder
-cd ~/projects
-
-# The project is already here: C:\Users\Kunal\OneDrive\Desktop\November\ehpa-task1
-# So you just need to navigate to it
-cd "C:\Users\Kunal\OneDrive\Desktop\November\ehpa-task1"
-```
-
-**Step 2: Create Python Environment**
-```bash
-# Create isolated Python environment
-python3 -m venv venv
-
-# Activate it (Linux)
-source venv/bin/activate
-
-# Activate it (Windows)
-.\venv\Scripts\activate
-
-# Your prompt should now show (venv)
-```
-
-**Step 3: Install Python Packages**
-```bash
-# Install all required packages
-pip install -r requirements.txt
-
-# This installs:
-# - FastAPI (web server)
-# - Anthropic (AI)
-# - Uvicorn (server runner)
-# - And 20+ other packages
-```
-
-**Step 4: Configure Your Settings**
-
-Create a `.env` file:
-```bash
-# Create the file
-nano .env
-
-# Or on Windows
-notepad .env
-```
-
-Add this content (replace `your-key-here`):
-```env
-# === REQUIRED ===
-# Your Claude API key from Anthropic
-ANTHROPIC_API_KEY=sk-ant-your-actual-key-here
-
-# === SECURITY ===
-# Targets you're allowed to test
-ALLOWED_TARGETS=scanme.nmap.org,testphp.vulnweb.com
-REQUIRE_TARGET_APPROVAL=true
-
-# === SERVER ===
-# Where the server runs
-API_HOST=0.0.0.0
-API_PORT=8000
-
-# === OPTIONAL ===
-# Hexstrike MCP (if you have it)
-HEXSTRIKE_API_KEY=your-hexstrike-key
-
-# Shodan (for OSINT)
-SHODAN_API_KEY=your-shodan-key
-```
-
-**Step 5: Test Everything Works**
-```bash
-# Test Python imports
-python3 -c "import anthropic; print('✅ Anthropic OK')"
-python3 -c "import fastapi; print('✅ FastAPI OK')"
-
-# Test tools are installed
-which nmap && echo "✅ nmap OK"
-which nikto && echo "✅ nikto OK"
-which sqlmap && echo "✅ sqlmap OK"
-
-# If all show ✅, you're ready!
-```
-
-**Step 6: Start the Server**
-```bash
-# Simple way
-python3 main.py
-
-# Advanced way (with auto-reload during development)
-uvicorn src.api.server:app --host 0.0.0.0 --port 8000 --reload
-```
-
-**Step 7: Check It's Running**
+ Check It's Running**
 
 Open your web browser and go to:
 - **Dashboard:** http://localhost:8000/dashboard
@@ -528,7 +328,7 @@ EHPA: "XSS (Cross-Site Scripting) is when attackers inject malicious
 ```
 You: "Scan scanme.nmap.org"
 
-EHPA: "✅ Starting comprehensive scan of scanme.nmap.org
+EHPA: "Starting comprehensive scan of scanme.nmap.org
 
        Phase 1: Reconnaissance
        Running: nmap, amass, subfinder
@@ -541,17 +341,17 @@ EHPA: "✅ Starting comprehensive scan of scanme.nmap.org
 ```
 You: "What's the status?"
 
-EHPA: "⏳ Scan Progress: 65%
+EHPA: " Scan Progress: 65%
 
        Current Phase: Vulnerability Scanning
        Current Task: Running Nikto on port 80
        Completed: 8/12 tasks
 
        Findings so far:
-       🔴 0 Critical
-       🟠 2 High
-       🟡 3 Medium
-       🟢 1 Low"
+        0 Critical
+        2 High
+        3 Medium
+        1 Low"
 ```
 
 **4. Ask Questions:**
@@ -560,7 +360,7 @@ You: "What's the most serious vulnerability?"
 
 EHPA: "The most serious finding is:
 
-       🔴 SQL Injection in Login Form
+       SQL Injection in Login Form
        Severity: HIGH (CVSS 8.5)
        Location: /login.php parameter 'username'
 
@@ -572,49 +372,6 @@ EHPA: "The most serious finding is:
        Fix: Use parameterized queries instead of string concatenation
 
        Would you like me to show you the code example?"
-```
-
-### Method 3: Using the API (For Developers)
-
-**1. Start a Scan:**
-```bash
-curl -X POST "http://localhost:8000/api/v1/pentest/start" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "target": "scanme.nmap.org",
-    "scope": ["network", "web"],
-    "authorized": true
-  }'
-```
-
-**Response:**
-```json
-{
-  "session_id": "ptest_abc123",
-  "target": "scanme.nmap.org",
-  "status": "active",
-  "current_phase": "reconnaissance"
-}
-```
-
-**2. Check Progress:**
-```bash
-curl "http://localhost:8000/api/v1/pentest/ptest_abc123/status"
-```
-
-**3. Get Findings:**
-```bash
-curl "http://localhost:8000/api/v1/pentest/ptest_abc123/findings"
-```
-
-**4. Chat:**
-```bash
-curl -X POST "http://localhost:8000/api/v1/chat/message" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "message": "Explain SQL injection",
-    "session_id": "default"
-  }'
 ```
 
 ---
@@ -654,19 +411,6 @@ Next action: "Run web vulnerability scanner (Nikto)"
 - Chooses the right tool settings
 - Explains what will happen
 
-**Example:**
-```
-Task: "Scan web server for vulnerabilities"
-
-Generation Module creates:
-Command: nikto -h scanme.nmap.org -port 80 -ssl
-Explanation:
-  -h = target host
-  -port = which port to scan
-  -ssl = test HTTPS if available
-
-Expected output: "List of web vulnerabilities"
-```
 
 #### 3. The Parsing Module (The Reader)
 
@@ -675,69 +419,14 @@ Expected output: "List of web vulnerabilities"
 - Finds important information
 - Organizes it nicely
 
-**Example:**
-```
-Tool output (messy):
-+ OSVDB-3092: /admin/: This might be interesting...
-+ OSVDB-3233: /icons/README: Apache default file found.
-+ OSVDB-3268: /css/: Directory indexing found.
-+ OSVDB-3288: /docs/: Directory indexing found.
-
-Parsing Module extracts:
-Vulnerabilities:
-1. Title: "Admin panel exposed"
-   Location: /admin/
-   Severity: MEDIUM
-
-2. Title: "Directory listing enabled"
-   Location: /css/, /docs/
-   Severity: LOW
-```
-
-### How Tools Are Wrapped (MCP Layer)
-
-Instead of running tools directly, EHPA wraps them for consistency:
-
-**Without MCP (Direct):**
-```bash
-# Different command for each tool
-nmap -sV target.com
-nikto -h target.com
-sqlmap -u target.com/login --dbs
-```
-
-**With MCP (Wrapped):**
-```python
-# Same interface for all tools
-result1 = nmap_tool.execute({"target": "target.com"})
-result2 = nikto_tool.execute({"target": "target.com"})
-result3 = sqlmap_tool.execute({"target": "target.com/login"})
-
-# All results in same format:
-{
-  "tool": "nmap",
-  "status": "success",
-  "output": "...",
-  "findings": [...]
-}
 ```
 
 **Benefits:**
-✅ Easy to add new tools
-✅ Consistent error handling
-✅ Same output format
-✅ Easy to test
-✅ Safe execution
-
----
-
-## Example Walkthrough
-
-Let's walk through a complete example step-by-step:
-
-### Scenario: Testing scanme.nmap.org
-
-**Phase 1: Reconnaissance (Finding Things)**
+ Easy to add new tools
+ Consistent error handling
+ Same output format
+ Easy to test
+ Safe execution
 
 ```
 [1] Reasoning Module decides:
@@ -824,9 +513,9 @@ Let's walk through a complete example step-by-step:
       ]
     }
 
-[5] You receive notification:
-    🟡 MEDIUM vulnerability found: Admin Panel Exposed
-    🟡 MEDIUM vulnerability found: Outdated Apache
+You receive notification:
+     MEDIUM vulnerability found: Admin Panel Exposed
+     MEDIUM vulnerability found: Outdated Apache
 ```
 
 **Phase 4: Reporting (Creating Documentation)**
@@ -872,287 +561,24 @@ Let's walk through a complete example step-by-step:
 **Chatbot Interaction During Scan:**
 
 ```
-[During scan at 45% progress]
 
-You: "What have you found so far?"
-
-EHPA: "I'm currently 45% through the scan. Here's what I've discovered:
-
-       📊 Open Ports: 3
-       - SSH on port 22
-       - HTTP on port 80
-       - Nping-echo on port 9929
-
-       📂 Directories: 2
-       - /images
-       - /shared
-
-       🔍 Vulnerabilities: 2 (Medium severity)
-
-       Currently running: Web vulnerability scan with Nikto
-       Estimated time remaining: 8 minutes"
-
-You: "Should I be worried about these vulnerabilities?"
-
-EHPA: "The vulnerabilities found are MEDIUM severity, not critical. Here's what they mean:
-
-       1. Admin Panel Exposed
-          Risk: Someone could try to access your admin area
-          Urgency: Moderate - add authentication soon
-
-       2. Outdated Apache
-          Risk: Known security holes exist
-          Urgency: Moderate - plan update within 2 weeks
-
-       Neither allows immediate system compromise, but both should be fixed to improve security.
-
-       Would you like detailed remediation steps?"
-```
-
----
-
-## Troubleshooting
-
-### Common Problems and Solutions
-
-#### Problem 1: Server Won't Start
-
-**Symptom:**
-```
-Error: Port 8000 is already in use
-```
-
-**Solution:**
-```bash
-# Option 1: Kill the process using port 8000
-sudo lsof -i :8000
-sudo kill -9 <PID>
-
-# Option 2: Use a different port
-# Edit .env file:
-API_PORT=8080
-
-# Start again
-python3 main.py
-```
-
-#### Problem 2: API Key Error
-
-**Symptom:**
-```
-Error: ANTHROPIC_API_KEY not found
-```
-
-**Solution:**
-```bash
-# Check .env file exists
-ls -la .env
-
-# If not, create it:
-echo "ANTHROPIC_API_KEY=sk-ant-your-key-here" > .env
-
-# Check it's loaded:
-python3 -c "import os; print(os.getenv('ANTHROPIC_API_KEY'))"
-```
-
-#### Problem 3: Tools Not Found
-
-**Symptom:**
-```
-Error: nmap not found in PATH
-```
-
-**Solution:**
-```bash
-# Install missing tools
-sudo apt update
-sudo apt install nmap nikto sqlmap gobuster -y
-
-# Verify installation
-which nmap
-which nikto
-which sqlmap
-which gobuster
-
-# All should show a path like /usr/bin/nmap
-```
-
-#### Problem 4: Permission Denied
-
-**Symptom:**
-```
-Error: Permission denied when running nmap
-```
-
-**Solution:**
-```bash
-# Some tools need root/admin privileges
-# Option 1: Run entire server as root (not recommended)
-sudo python3 main.py
-
-# Option 2: Give specific permissions
-sudo chmod +x /usr/bin/nmap
-sudo setcap cap_net_raw,cap_net_admin=eip /usr/bin/nmap
-```
-
-#### Problem 5: Target Not Authorized
-
-**Symptom:**
-```
-Error: Target not in allowed list
-```
-
-**Solution:**
-```bash
-# Edit .env file
-nano .env
-
-# Add your target (if you have permission!)
-ALLOWED_TARGETS=scanme.nmap.org,testphp.vulnweb.com,yourtarget.com
-
-# Save and restart server
-```
-
-#### Problem 6: Chat Not Working
-
-**Symptom:**
-- Messages don't send
-- No response from bot
-
-**Solution:**
-```bash
-# Check WebSocket connection
-# Open browser console (F12) and look for:
-"WebSocket connection failed"
-
-# Check server logs for:
-python3 main.py | grep -i websocket
-
-# Restart server
-```
-
-#### Problem 7: Dashboard Won't Load
-
-**Symptom:**
-- Blank page
-- 404 error
-
-**Solution:**
-```bash
-# Check static files exist
-ls web/templates/dashboard.html
-ls web/static/css/dashboard.css
-ls web/static/js/dashboard.js
-
-# If missing, check INTEGRATION_GUIDE.md
-# Make sure server_extensions.py is enabled
-
-# Clear browser cache and reload
-```
-
-### Getting Help
-
-If problems persist:
-
-1. **Check Logs:**
-   ```bash
-   # Server logs
-   tail -f logs/ehpa.log
-
-   # Look for ERROR or WARNING messages
-   ```
-
-2. **Test Components:**
-   ```bash
-   # Test API
-   curl http://localhost:8000/api/health
-
-   # Should return: {"status": "healthy"}
-   ```
-
-3. **Verify Environment:**
-   ```bash
-   # Check Python version
-   python3 --version  # Should be 3.9+
-
-   # Check dependencies
-   pip list | grep anthropic
-   pip list | grep fastapi
-   ```
-
-4. **Read Documentation:**
-   - API Docs: http://localhost:8000/api/docs
-   - Integration Guide: INTEGRATION_GUIDE.md
-   - Main README: README.md
-
----
-
-## 🎯 Quick Reference
-
-### Essential Commands
-
-**Start Server:**
-```bash
-python3 main.py
-```
-
-**Access Points:**
-```
-Dashboard:  http://localhost:8000/dashboard
-API Docs:   http://localhost:8000/api/docs
-Health:     http://localhost:8000/api/health
-```
-
-**Common API Calls:**
-```bash
-# Start scan
-curl -X POST http://localhost:8000/api/v1/pentest/start \
-  -d '{"target":"scanme.nmap.org","scope":["network"],"authorized":true}'
-
-# Check status
-curl http://localhost:8000/api/v1/pentest/{session_id}/status
-
-# Get findings
-curl http://localhost:8000/api/v1/pentest/{session_id}/findings
-
-# Chat
-curl -X POST http://localhost:8000/api/v1/chat/message \
-  -d '{"message":"What is SQL injection?"}'
-```
-
-### File Locations
-
-```
-Configs:     configs/
-Logs:        logs/
-Reports:     data/reports/
-Sessions:    data/sessions/
-Chat History: data/chat_history/
-```
-
----
-
-## 🎓 Summary
+## Summary
 
 **EHPA is a complete AI-powered security testing system that:**
 
-✅ **Automates penetration testing** through 6 phases
-✅ **Uses AI** to make smart decisions
-✅ **Provides a chatbot** to answer questions and explain concepts
-✅ **Creates professional reports** automatically
-✅ **Has a beautiful dashboard** for easy use
-✅ **Stays updated** with latest security news
-✅ **Works with 150+ security tools**
+ **Automates penetration testing** through 6 phases
+ **Uses AI** to make smart decisions
+ **Provides a chatbot** to answer questions and explain concepts
+ **Creates professional reports** automatically
+ **Has a beautiful dashboard** for easy use
+ **Stays updated** with latest security news
+ **Works with 150+ security tools**
 
 **Perfect for:**
-- 🎓 Learning about cybersecurity
-- 🔒 Testing your own websites/networks
-- 📚 University projects
-- 💼 Professional security assessments
-
-**Remember:**
-⚠️ Only test systems you have permission to test!
-⚠️ Unauthorized hacking is illegal!
+-  Learning about cybersecurity
+-  Testing your own websites/networks
+-  University projects
+-  Professional security assessments
 
 ---
 
